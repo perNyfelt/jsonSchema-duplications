@@ -1,0 +1,37 @@
+plugins {
+  // Apply the groovy Plugin to add support for Groovy.
+  id 'java'
+  id "org.jsonschema2pojo" version "1.2.1"
+}
+
+group = 'sample'
+version = '1.0.0-SNAPSHOT'
+description = 'TODO: write a short description here'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+repositories {
+  // Use Maven Central for resolving dependencies.
+  mavenCentral()
+}
+
+dependencies {
+
+
+  implementation 'com.fasterxml.jackson.core:jackson-core:2.15.3'
+  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.15.3'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+
+}
+
+jsonSchema2Pojo {
+   source = files("${sourceSets.main.output.resourcesDir}/falsstprv_schema.json")
+   targetDirectory = file("${project.buildDir}/generated/sources/js2p")
+   targetPackage = 'sample'
+   refFragmentPathDelimiters = '#/'
+}
+

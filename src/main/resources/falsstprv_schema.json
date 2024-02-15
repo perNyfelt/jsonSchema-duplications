@@ -1,0 +1,1454 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "$id": "https://schemas.fi.se/bank/fals/20231213",
+  "type": "object",
+  "properties": {
+    "schemaRef": {
+      "description": "Points to Schema URL",
+      "type": "string",
+      "format": "uri"
+    },
+    "reportingDate": {
+      "description": "Reporting Date",
+      "type": "string",
+      "format": "date"
+    },
+    "financialEntityId": {
+      "description": "Financial Entity ID",
+      "type": "string"
+    },
+    "consolidationScope": {
+      "description": "Consolidation scope",
+      "type": "string",
+      "enum": [
+        "Individual",
+        "Consolidated"
+      ]
+    },
+    "fals": {
+      "$ref": "#/definitions/.fals"
+    }
+  },
+  "required": [
+    "schemaRef",
+    "reportingDate",
+    "financialEntityId"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    ".fals": {
+      "$ref": "#/definitions/falsTyp"
+    },
+    "CustomerInformationType": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "$ref": "#/definitions/string50NoSpace"
+        },
+        "type": {
+          "$ref": "#/definitions/customerType"
+        },
+        "birthYearMonth": {
+          "$ref": "#/definitions/customerBirthYearMonthType"
+        },
+        "region": {
+          "$ref": "#/definitions/regionType"
+        },
+        "sex": {
+          "$ref": "#/definitions/customerSexType"
+        },
+        "selfEmployed": {
+          "$ref": "#/definitions/boolInput"
+        },
+        "dateTotalFeeOrRentAccommodation": {
+          "$ref": "#/definitions/dateInput"
+        },
+        "totalFeeOrRentAccommodation": {
+          "$ref": "#/definitions/intMax1M"
+        },
+        "income": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "$ref": "#/definitions/dateInput"
+            },
+            "beforeTax": {
+              "$ref": "#/definitions/intMax3M"
+            },
+            "capital": {
+              "$ref": "#/definitions/intMax3M"
+            },
+            "transfers": {
+              "$ref": "#/definitions/intMax3M"
+            },
+            "disposable": {
+              "$ref": "#/definitions/intMax3M"
+            }
+          },
+          "additionalProperties": false
+        },
+        "creditReport": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "$ref": "#/definitions/dateInput"
+            },
+            "type": {
+              "$ref": "#/definitions/creditReportType"
+            },
+            "appliedCreditType": {
+              "$ref": "#/definitions/appliedCreditType"
+            },
+            "appliedCreditAmount": {
+              "$ref": "#/definitions/intMax30M"
+            },
+            "KALP": {
+              "$ref": "#/definitions/intRange3M"
+            },
+            "numChildrenAtHome": {
+              "$ref": "#/definitions/intMax50"
+            },
+            "savingsTotal": {
+              "$ref": "#/definitions/intMax30M"
+            },
+            "creditReportJointLoan": {
+              "$ref": "#/definitions/creditReportJointLoanType"
+            },
+            "debt": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "$ref": "#/definitions/intMax30M"
+                },
+                "secured": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "property": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "toa": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "ownerOccupied": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "unknown": {
+                      "$ref": "#/definitions/intMax30M"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "unsecured": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "blanco": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "credit": {
+                      "$ref": "#/definitions/intMax30M"
+                    },
+                    "unknown": {
+                      "$ref": "#/definitions/intMax30M"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "totalOtherSecurity": {
+                  "$ref": "#/definitions/intMax30M"
+                },
+                "totalUnknown": {
+                  "$ref": "#/definitions/int32"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "type",
+            "appliedCreditType",
+            "appliedCreditAmount"
+          ],
+          "additionalProperties": false
+        },
+        "studentLoan": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "$ref": "#/definitions/dateInput"
+            },
+            "total": {
+              "$ref": "#/definitions/intMax1M"
+            },
+            "monthlyPayment": {
+              "$ref": "#/definitions/intMax100k"
+            }
+          },
+          "additionalProperties": false
+        },
+        "customerKnowledge": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "$ref": "#/definitions/dateInput"
+            },
+            "incomeLower": {
+              "$ref": "#/definitions/intMax1M"
+            },
+            "incomeUpper": {
+              "$ref": "#/definitions/intMax1M"
+            }
+          },
+          "required": [
+            "date"
+          ],
+          "additionalProperties": false
+        },
+        "customerInvolvment": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "dateInvolvment": {
+                "$ref": "#/definitions/dateInput"
+              },
+              "creditLimit": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "$ref": "#/definitions/creditLimitType"
+                  },
+                  "value": {
+                    "$ref": "#/definitions/intMax30M"
+                  }
+                },
+                "required": [
+                  "type"
+                ],
+                "additionalProperties": false
+              },
+              "debtCompany": {
+                "type": "object",
+                "properties": {
+                  "total": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "secured": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "property": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "TOA": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "ownerOccupied": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "unknown": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "unsecured": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "blanco": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "creditcard": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "creditline": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "installment": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "unknown": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "otherSecurity": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "vehicle": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "assets": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "other": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "unknown": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "reminder": {
+                    "type": "object",
+                    "properties": {
+                      "num": {
+                        "$ref": "#/definitions/intMax10k"
+                      },
+                      "vol": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "collection": {
+                    "type": "object",
+                    "properties": {
+                      "num": {
+                        "$ref": "#/definitions/intMax10k"
+                      },
+                      "vol": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "sold": {
+                    "type": "object",
+                    "properties": {
+                      "num": {
+                        "$ref": "#/definitions/intMax10k"
+                      },
+                      "vol": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "invoice": {
+                    "type": "object",
+                    "properties": {
+                      "num": {
+                        "$ref": "#/definitions/intMax1M"
+                      },
+                      "vol": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "cost": {
+                        "type": "object",
+                        "properties": {
+                          "num": {
+                            "$ref": "#/definitions/intMax1M"
+                          },
+                          "vol": {
+                            "$ref": "#/definitions/intMax30M"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "reminder": {
+                        "type": "object",
+                        "properties": {
+                          "num": {
+                            "$ref": "#/definitions/intMax10k"
+                          },
+                          "vol": {
+                            "$ref": "#/definitions/intMax30M"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "collection": {
+                        "type": "object",
+                        "properties": {
+                          "num": {
+                            "$ref": "#/definitions/intMax10k"
+                          },
+                          "vol": {
+                            "$ref": "#/definitions/intMax30M"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "savingsCompany": {
+                "type": "object",
+                "properties": {
+                  "total": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "bankLending": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "ISK": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "funds": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "stocks": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "account": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "other": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "deposit": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "funds": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "stocks": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "account": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "other": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "endowmentInsurance": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "other": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "new": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/intRange30M"
+                      },
+                      "bankLending": {
+                        "$ref": "#/definitions/intRange30M"
+                      },
+                      "ISK": {
+                        "type": "object",
+                        "properties": {
+                          "funds": {
+                            "$ref": "#/definitions/intRange30M"
+                          },
+                          "stocks": {
+                            "$ref": "#/definitions/intRange30M"
+                          },
+                          "other": {
+                            "$ref": "#/definitions/intRange30M"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "deposit": {
+                        "type": "object",
+                        "properties": {
+                          "funds": {
+                            "$ref": "#/definitions/intRange30M"
+                          },
+                          "stocks": {
+                            "$ref": "#/definitions/intRange30M"
+                          },
+                          "other": {
+                            "$ref": "#/definitions/intRange30M"
+                          },
+                          "endowInsurance": {
+                            "$ref": "#/definitions/intRange30M"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "other": {
+                        "$ref": "#/definitions/intRange30M"
+                      },
+                      "unknown": {
+                        "$ref": "#/definitions/intRange30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "savingsDividends": {
+                "type": "object",
+                "properties": {
+                  "ISK": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "deposit": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "endowmentInsurance": {
+                    "$ref": "#/definitions/intMax30M"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "savingsAmortization": {
+                "type": "object",
+                "properties": {
+                  "securedLoans": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "otherLoans": {
+                    "$ref": "#/definitions/intMax30M"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "savingsAdviceDuringYear": {
+                "type": "object",
+                "properties": {
+                  "personal": {
+                    "$ref": "#/definitions/savingsAdviceDuringYearType"
+                  },
+                  "robot": {
+                    "$ref": "#/definitions/savingsAdviceDuringYearType"
+                  },
+                  "unknown": {
+                    "$ref": "#/definitions/savingsAdviceDuringYearType"
+                  }
+                },
+                "required": [
+                  "personal",
+                  "robot",
+                  "unknown"
+                ],
+                "additionalProperties": false
+              },
+              "savingsProvisionsPaid": {
+                "$ref": "#/definitions/intMax30M"
+              },
+              "savingsMonthly": {
+                "$ref": "#/definitions/intMax30M"
+              },
+              "savingsLoanToValue": {
+                "type": "object",
+                "properties": {
+                  "ISK": {
+                    "$ref": "#/definitions/intMax200"
+                  },
+                  "deposit": {
+                    "$ref": "#/definitions/intMax200"
+                  },
+                  "endowment": {
+                    "$ref": "#/definitions/intMax200"
+                  },
+                  "possibleISK": {
+                    "$ref": "#/definitions/intMax200"
+                  },
+                  "possibleDeposit": {
+                    "$ref": "#/definitions/intMax200"
+                  },
+                  "possibleEndowment": {
+                    "$ref": "#/definitions/intMax200"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "savingsNumBuy": {
+                "$ref": "#/definitions/intMax10M"
+              },
+              "savingsNumSell": {
+                "$ref": "#/definitions/intMax10M"
+              },
+              "savingsValueBuy": {
+                "$ref": "#/definitions/intMax30M"
+              },
+              "savingsValueSell": {
+                "$ref": "#/definitions/intMax30M"
+              },
+              "savingsNumUniqueFunds": {
+                "$ref": "#/definitions/intMax1M"
+              },
+              "savingsNumUniqueStocks": {
+                "$ref": "#/definitions/intMax1M"
+              },
+              "savingsCourtageISK": {
+                "$ref": "#/definitions/intMax10M"
+              },
+              "savingsCourtageDeposit": {
+                "$ref": "#/definitions/intMax10M"
+              },
+              "savingsFees": {
+                "type": "object",
+                "properties": {
+                  "total": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "shell": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "account": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "creditCard": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "creditLine": {
+                    "$ref": "#/definitions/intMax10M"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "dateInvolvment",
+              "creditLimit",
+              "savingsAdviceDuringYear"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "loanIdRef": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/string50NoSpace"
+          }
+        },
+        "saveProdIdRef": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/string50NoSpace"
+          }
+        }
+      },
+      "required": [
+        "ID",
+        "type",
+        "region",
+        "sex"
+      ],
+      "additionalProperties": false
+    },
+    "amortizationType": {
+      "type": "string",
+      "enum": [
+        "RAKA",
+        "ANNU",
+        "UTAN",
+        "SERI",
+        "OTHR",
+        "UPSA"
+      ]
+    },
+    "appliedCreditType": {
+      "type": "string",
+      "enum": [
+        "NYUP",
+        "BOLB",
+        "BOLS",
+        "BOLU",
+        "BOOT",
+        "KORT",
+        "KONT",
+        "BLAN",
+        "OBLA",
+        "DELB",
+        "DELK",
+        "FAKT",
+        "LANF",
+        "VLAN",
+        "OTHR",
+        "UPSA"
+      ]
+    },
+    "collateralValuationType": {
+      "type": "string",
+      "enum": [
+        "KOPE",
+        "INDX",
+        "IVAL",
+        "EVAL",
+        "STAT",
+        "TAXV",
+        "MAEV",
+        "OVRG",
+        "UPSA"
+      ]
+    },
+    "collateralType": {
+      "type": "string",
+      "enum": [
+        "SMHU",
+        "FRHU",
+        "BORA",
+        "AGLA",
+        "VAPA",
+        "FORD",
+        "OVSA",
+        "UPSA"
+      ]
+    },
+    "creditLimitType": {
+      "type": "string",
+      "enum": [
+        "FAKL",
+        "OBKL",
+        "ANKL",
+        "UPSA",
+        "NOLL"
+      ]
+    },
+    "creditReportType": {
+      "type": "string",
+      "enum": [
+        "KFDD",
+        "KFSB",
+        "LATG",
+        "KFLD",
+        "KFLS",
+        "ANKA",
+        "UPSA"
+      ]
+    },
+    "customerBirthYearMonthType": {
+      "type": "string",
+      "pattern": "^((?:(?:19|20)[0-9]{2})\\-(0[1-9]|1[0-2]))$"
+    },
+    "customerSexType": {
+      "type": "string",
+      "enum": [
+        "M",
+        "K",
+        "UPSA"
+      ]
+    },
+    "regionType": {
+      "type": "string",
+      "enum": [
+        "11",
+        "12",
+        "13",
+        "21",
+        "22",
+        "23",
+        "31",
+        "32",
+        "33",
+        "41",
+        "42",
+        "51",
+        "52",
+        "00"
+      ]
+    },
+    "customerType": {
+      "type": "string",
+      "enum": [
+        "HEKU",
+        "PRBA",
+        "OVKU",
+        "UPSA"
+      ]
+    },
+    "number4Digits": {
+      "type": "number",
+      "multipleOf": 0.0001
+    },
+    "string50": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "string50NoSpace": {
+      "type": "string",
+      "pattern": "^[^\\s]*$",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "falsTyp": {
+      "type": "object",
+      "properties": {
+        "households": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "householdId": {
+                "$ref": "#/definitions/string50NoSpace"
+              },
+              "customer": {
+                "$ref": "#/definitions/CustomerInformationType"
+              }
+            },
+            "required": [
+              "householdId",
+              "customer"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "loans": {
+          "type": "object",
+          "properties": {
+            "loan": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "loanId": {
+                    "$ref": "#/definitions/string50NoSpace"
+                  },
+                  "collateralIdRef": {
+                    "$ref": "#/definitions/string50NoSpace"
+                  },
+                  "numBorrower": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/numBorrowerType"
+                      },
+                      "household": {
+                        "$ref": "#/definitions/numBorrowerType"
+                      },
+                      "notHousehold": {
+                        "$ref": "#/definitions/numBorrowerType"
+                      },
+                      "unknown": {
+                        "$ref": "#/definitions/numBorrowerType"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "bankChanger": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "loanThroughIntermediary": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "loanThroughRepresentative": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "loanType": {
+                    "$ref": "#/definitions/loanType"
+                  },
+                  "loanOwnerShare": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "loanExtension": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "loanPurpose": {
+                    "$ref": "#/definitions/loanPurposeType"
+                  },
+                  "datePayment": {
+                    "$ref": "#/definitions/dateInput"
+                  },
+                  "loanTypeCreditAssessment": {
+                    "$ref": "#/definitions/loanTypeCreditAssessmentType"
+                  },
+                  "atApproval": {
+                    "type": "object",
+                    "properties": {
+                      "numReminder": {
+                        "$ref": "#/definitions/intMax1k"
+                      },
+                      "numCollections": {
+                        "$ref": "#/definitions/intMax1k"
+                      },
+                      "paymentDefault": {
+                        "$ref": "#/definitions/boolInput"
+                      },
+                      "debtAtKFM": {
+                        "$ref": "#/definitions/boolInput"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "maturity": {
+                    "type": "object",
+                    "properties": {
+                      "original": {
+                        "$ref": "#/definitions/intMax1k"
+                      },
+                      "current": {
+                        "$ref": "#/definitions/intMax1k"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "interestPeriod": {
+                    "$ref": "#/definitions/intMax360"
+                  },
+                  "interestPeriodRemaining": {
+                    "$ref": "#/definitions/intMax360"
+                  },
+                  "invoicePeriod": {
+                    "$ref": "#/definitions/invoicePeriodType"
+                  },
+                  "loanAmount": {
+                    "type": "object",
+                    "properties": {
+                      "original": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "originalLose": {
+                        "$ref": "#/definitions/intMax30M"
+                      },
+                      "current": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "offBalanceAmount": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "interestRateNominal": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "totalCost": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "fee": {
+                    "type": "object",
+                    "properties": {
+                      "contractSetup": {
+                        "$ref": "#/definitions/intMax1M"
+                      },
+                      "annual": {
+                        "$ref": "#/definitions/intMax1M"
+                      },
+                      "contractRunning": {
+                        "$ref": "#/definitions/intMax1M"
+                      },
+                      "extra": {
+                        "$ref": "#/definitions/intMax10M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "amortization": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "$ref": "#/definitions/amortizationType"
+                      },
+                      "avg": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "provisionType": {
+                    "$ref": "#/definitions/provisionType"
+                  },
+                  "accumulatedProvisions": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "PD_IFRS": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "LGD_IFRS": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "PD_IRB": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "LGD_downturn": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "EAD": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "riskWeight": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "accumulatedWriteOffs": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "expectedLossAmount": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "rho": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "IRB_type": {
+                    "$ref": "#/definitions/irbType"
+                  },
+                  "maturityContractual": {
+                    "$ref": "#/definitions/intMax1k"
+                  },
+                  "CCF": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "hasDefault": {
+                    "$ref": "#/definitions/hasDefaultType"
+                  },
+                  "thresholdPD1to2": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "PD_original": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  },
+                  "coverPool": {
+                    "type": "object",
+                    "properties": {
+                      "eligible": {
+                        "$ref": "#/definitions/boolInput"
+                      },
+                      "included": {
+                        "$ref": "#/definitions/boolInput"
+                      },
+                      "amount": {
+                        "$ref": "#/definitions/intMax30M"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "numUnpaidInvoice30DaysLastYear": {
+                    "$ref": "#/definitions/intMax12"
+                  },
+                  "hasCollections": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "hasKfm": {
+                    "$ref": "#/definitions/boolInput"
+                  },
+                  "forbearanceLast12m": {
+                    "$ref": "#/definitions/boolInput"
+                  }
+                },
+                "required": [
+                  "loanId",
+                  "loanType",
+                  "loanPurpose",
+                  "datePayment",
+                  "loanTypeCreditAssessment",
+                  "amortization",
+                  "provisionType",
+                  "IRB_type",
+                  "hasDefault"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "collaterals": {
+          "type": "object",
+          "properties": {
+            "collateral": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "collateralId": {
+                    "$ref": "#/definitions/string50NoSpace"
+                  },
+                  "region": {
+                    "$ref": "#/definitions/regionType"
+                  },
+                  "type": {
+                    "$ref": "#/definitions/collateralType"
+                  },
+                  "date": {
+                    "$ref": "#/definitions/dateInput"
+                  },
+                  "valuationType": {
+                    "$ref": "#/definitions/collateralValuationType"
+                  },
+                  "value": {
+                    "$ref": "#/definitions/intMax100M"
+                  },
+                  "dateLoanToValue": {
+                    "$ref": "#/definitions/dateInput"
+                  },
+                  "loanToValue": {
+                    "$ref": "#/definitions/number4Digits"
+                  },
+                  "debtSqMeter": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "squareMeter": {
+                    "$ref": "#/definitions/intMax1k"
+                  }
+                },
+                "required": [
+                  "collateralId",
+                  "region",
+                  "type",
+                  "date",
+                  "valuationType"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "savingsProduct": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "saveProd": {
+                "type": "object",
+                "properties": {
+                  "saveProdID": {
+                    "$ref": "#/definitions/string50NoSpace"
+                  },
+                  "type": {
+                    "$ref": "#/definitions/saveProdType"
+                  },
+                  "name": {
+                    "$ref": "#/definitions/string50"
+                  },
+                  "ISIN": {
+                    "$ref": "#/definitions/savingsISINType"
+                  },
+                  "numShares": {
+                    "$ref": "#/definitions/intMax10M"
+                  },
+                  "value": {
+                    "$ref": "#/definitions/intMax30M"
+                  },
+                  "fixPeriods": {
+                    "$ref": "#/definitions/intMax12k"
+                  },
+                  "fee": {
+                    "type": "object",
+                    "properties": {
+                      "total": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      },
+                      "companyKickback": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      },
+                      "fund": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      },
+                      "transaction": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      },
+                      "exchange": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      },
+                      "other": {
+                        "$ref": "#/definitions/number4DigitsWithConstrain"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "riskClass": {
+                    "$ref": "#/definitions/saveProdRiskClassType"
+                  },
+                  "sharpe": {
+                    "$ref": "#/definitions/number2Digits"
+                  },
+                  "ltvPossible": {
+                    "$ref": "#/definitions/number4DigitsWithConstrain"
+                  }
+                },
+                "required": [
+                  "saveProdID",
+                  "type",
+                  "name"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "saveProd"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "households"
+      ],
+      "additionalProperties": false
+    },
+    "loanPurposeType": {
+      "type": "string",
+      "enum": [
+        "LOSE",
+        "LOAI",
+        "RENO",
+        "FORD",
+        "INVP",
+        "SFIN",
+        "OTHR",
+        "UPSA"
+      ]
+    },
+    "loanType": {
+      "type": "string",
+      "enum": [
+        "BOLB",
+        "BOLS",
+        "BOLU",
+        "BOOT",
+        "KORT",
+        "KONT",
+        "BLAN",
+        "OBLA",
+        "DELB",
+        "DELK",
+        "FAKT",
+        "LANF",
+        "VLAN",
+        "OTHR",
+        "UPSA"
+      ]
+    },
+    "saveProdType": {
+      "type": "string",
+      "enum": [
+        "BINU",
+        "BINM",
+        "ISKF",
+        "ISKA",
+        "ISKE",
+        "ISKM",
+        "ISKO",
+        "DEPF",
+        "DEPA",
+        "DEPE",
+        "DEPM",
+        "DEPO",
+        "ENIN",
+        "PENO",
+        "OTHR",
+        "UPSA"
+      ]
+    },
+    "hasDefaultType": {
+      "type": "string",
+      "enum": [
+        "0",
+        "14",
+        "18",
+        "19",
+        "20"
+      ]
+    },
+    "provisionType": {
+      "type": "string",
+      "enum": [
+        "FAS1",
+        "FAS2",
+        "FAS3",
+        "GERE",
+        "SPRE",
+        "OFEJ",
+        "UPSA"
+      ]
+    },
+    "loanTypeCreditAssessmentType": {
+      "type": "string",
+      "enum": [
+        "KFDD",
+        "KFSB",
+        "LATG",
+        "KFLD",
+        "KFLS",
+        "ANKA",
+        "UPSA"
+      ]
+    },
+    "saveProdRiskClassType": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "irbType": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "creditReportJointLoanType": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1"
+      ]
+    },
+    "savingsAdviceDuringYearType": {
+      "type": "string",
+      "enum": [
+        "",
+        "0",
+        "1"
+      ]
+    },
+    "dateInput": {
+      "type": "string",
+      "format": "date"
+    },
+    "boolInput": {
+      "type": "boolean"
+    },
+    "int32": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "intRange30M": {
+      "type": "integer",
+      "minimum": -30000000,
+      "maximum": 30000000
+    },
+    "intRange3M": {
+      "type": "integer",
+      "minimum": -3000000,
+      "maximum": 3000000
+    },
+    "intMax12": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "numBorrowerType": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20
+    },
+    "intMax19": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 19
+    },
+    "intMax50": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 50
+    },
+    "intMax200": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 200
+    },
+    "intMax120": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 120
+    },
+    "intMax360": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 360
+    },
+    "intMax1k": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "intMax10k": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "intMax12k": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12000
+    },
+    "intMax100k": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000
+    },
+    "intMax1M": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "intMax3M": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3000000
+    },
+    "intMax10M": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000000
+    },
+    "intMax30M": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30000000
+    },
+    "intMax100M": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100000000
+    },
+    "number4DigitsWithConstrain": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "multipleOf": 0.0001
+    },
+    "savingsISINType": {
+      "type": "string",
+      "minLength": 12,
+      "maxLength": 12,
+      "pattern": "[A-Z]{2,2}[A-Z0-9]{9,9}[0-9]{1,1}"
+    },
+    "number2Digits": {
+      "type": "number",
+      "multipleOf": 0.01
+    },
+    "invoicePeriodType": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 12
+    }
+  }
+}
